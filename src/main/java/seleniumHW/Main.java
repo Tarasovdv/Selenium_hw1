@@ -3,6 +3,10 @@ package seleniumHW;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+// <<<<<<< JIRA-0001_description-of-the-methods-webdriver
+// =======
+import org.openqa.selenium.chrome.ChromeOptions;
+// >>>>>>> master
 
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +15,28 @@ public class Main {
     public static void main(String[] args) {
 
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+// <<<<<<< JIRA-0001_description-of-the-methods-webdriver
 
+=======
+//        ChromeOptions options = new ChromeOptions();
+//        options.setBinary(File path); Задает путь к исполняемому файлу Chrome. Этот путь должен существовать на компьютере, на котором будет запущен Chrome. Путь должен быть либо абсолютным, либо относительным к местоположению запущенного сервера ChromeDriver
+//        options.setBinary(String path);
+//        options.addArguments(String... arguments); аргументы - аргументы, которые будут использоваться при запуске Chrome.
+//          options.addArguments(List<String> arguments); Добавляет дополнительные аргументы командной строки, которые будут использоваться при запуске Chrome. Например:
+//        options.addArguments(
+//                "load-extension=/path/to/unpacked_extension",
+//                "allow-outdated-plugins");https:
+//github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
+//        options.addExtensions(List<File> paths); Добавляет новое расширение Chrome для установки при запуске браузера. В каждом пути должно указываться упакованное расширение Chrome (CRX-файл).
+//        options.addExtensions(File... paths);
+//        options.addEncodedExtensions(String... encoded); encoded - данные устанавливаемых расширений, закодированные в Base64.
+//        options.addEncodedExtensions(List<String> encoded); Добавляет новое расширение Chrome для установки при запуске браузера. В каждой строке данных должна указываться строка в кодировке Base64 упакованного расширения Chrome (CRX-файл).
+//        options.setExperimentalOption(String name, Object value); Устанавливает экспериментальный параметр. Полезно для новых опций ChromeDriver, которые еще не доступны через ChromiumOptions API.
+//                      name - Название экспериментальной опции.
+//                      value - значение экспериментальной опции, которое должно быть преобразовано в JSON.
+
+//        WebDriver driver = new ChromeDriver(options);
+// >>>>>>> master
         WebDriver driver = new ChromeDriver();
 
 
