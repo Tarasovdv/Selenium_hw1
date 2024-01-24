@@ -17,7 +17,7 @@ public class Main {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
 // <<<<<<< JIRA-0001_description-of-the-methods-webdriver
 
-=======
+//=======
 //        ChromeOptions options = new ChromeOptions();
 //        options.setBinary(File path); Задает путь к исполняемому файлу Chrome. Этот путь должен существовать на компьютере, на котором будет запущен Chrome. Путь должен быть либо абсолютным, либо относительным к местоположению запущенного сервера ChromeDriver
 //        options.setBinary(String path);
@@ -101,6 +101,8 @@ public class Main {
 //        driver.switchTo().frame(String nameOrId); // Выбери рамку по его имени или идентификатору. Фокус драйвера на эту рамку.
 //        driver.switchTo().frame(WebElement frameElement);// Выбери рамку, используя его ранее расположенный веб-элемент. Фокус драйвера на эту рамку.
         driver.switchTo().parentFrame(); // Этот драйвер сфокусирован на родительском фрейме
+
+        driver.quit();
 
 
     }
