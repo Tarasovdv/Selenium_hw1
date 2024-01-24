@@ -24,10 +24,18 @@ public class Driver {
 
         System.setProperty(chrome, chrome_path);
 
-        WebDriver chromeDriver = new ChromeDriver();
-        chromeDriver.get(url_steam_general);
-        chromeDriver.get(url_yantra);
+        WebDriver chromeDriver_yantra = new ChromeDriver();
+        WebDriver chromeDriver_steam = new ChromeDriver();
+        chromeDriver_steam.get(url_steam_general);
+        chromeDriver_yantra.get(url_yantra);
 
-        chromeDriver.quit();
+        System.out.println("chromeDriver_yantra.getTitle() = " + chromeDriver_yantra.getTitle());
+
+        String url_catalog_plate = "https://yantrakeramika.ru/catalog/Tarelki/";
+        chromeDriver_yantra.navigate().to(url_catalog_plate);
+        System.out.println("chromeDriver_yantra.getTitle() = " + chromeDriver_yantra.getTitle());
+
+//        chromeDriver.quit();
+
     }
 }
