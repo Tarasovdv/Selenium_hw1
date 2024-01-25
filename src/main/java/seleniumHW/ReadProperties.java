@@ -10,9 +10,14 @@ public class ReadProperties {
         return classLoader.getResourceAsStream(name_file);
     }
 
-    public static String selectParams(InputStream file_props, String key) throws IOException {
+    public static String selectParams(InputStream file_props, String key) {
         Properties props = new Properties();
-        props.load(file_props);
+        try {
+            props.load(file_props);
+        } catch (IOException e) {
+            System.out.println("Файл properties отсутствует");
+            throw new RuntimeException(e);
+        }
         return props.getProperty(key);
     }
 

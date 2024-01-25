@@ -3,39 +3,33 @@ package seleniumHW;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.io.IOException;
-
 import static seleniumHW.ReadProperties.*;
 
 public class Driver {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
 //        Properties File Name
         String propFile = "chrome.properties";
 
 //        CHROME PARAMS
         String chrome = selectParams(readPropFile(propFile), "chrome");
-        String chrome_path = selectParams(readPropFile(propFile), "chrome_path");
+        String chromePath = selectParams(readPropFile(propFile), "chrome.path");
 
 //        URLs
-        String url_steam_general = selectParams(readPropFile(propFile), "url_steam_general");
-        String url_yantra = selectParams(readPropFile(propFile), "url_yantra");
+//        String urlSteam = selectParams(readPropFile(propFile), "url.steam.general");
+        String urlYantra = selectParams(readPropFile(propFile), "url.yantra");
+        String urlCatalogPlate = "https://yantrakeramika.ru/catalog/Tarelki/";
 
-        System.setProperty(chrome, chrome_path);
+        System.setProperty(chrome, chromePath);
+        WebDriver chromeDriver = new ChromeDriver();
 
-        WebDriver chromeDriver_yantra = new ChromeDriver();
-        WebDriver chromeDriver_steam = new ChromeDriver();
-        chromeDriver_steam.get(url_steam_general);
-        chromeDriver_yantra.get(url_yantra);
+        chromeDriver.get(urlYantra);
+        System.out.println("chromeDriver.getTitle() = " + chromeDriver.getTitle());
 
-        System.out.println("chromeDriver_yantra.getTitle() = " + chromeDriver_yantra.getTitle());
+        chromeDriver.navigate().to(urlCatalogPlate);
+        System.out.println("chromeDriver.getTitle() = " + chromeDriver.getTitle());
 
-        String url_catalog_plate = "https://yantrakeramika.ru/catalog/Tarelki/";
-        chromeDriver_yantra.navigate().to(url_catalog_plate);
-        System.out.println("chromeDriver_yantra.getTitle() = " + chromeDriver_yantra.getTitle());
-
-//        chromeDriver.quit();
-
+        chromeDriver.quit();
     }
 }
