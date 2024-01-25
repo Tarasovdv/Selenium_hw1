@@ -8,10 +8,10 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import static seleniumHW.ReadProperties.readPropFile;
-import static seleniumHW.ReadProperties.selectParams;
+import static seleniumHW.Properties.readPropFile;
+import static seleniumHW.Properties.selectParams;
 
-public class ChromeTestVersion1 {
+public class YantraChromeTest {
     private WebDriver driver;
     private final String propFile = "chrome.properties";
 
