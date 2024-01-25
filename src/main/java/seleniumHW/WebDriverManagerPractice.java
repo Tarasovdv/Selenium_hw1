@@ -2,12 +2,10 @@ package seleniumHW;
 
 import org.openqa.selenium.WebDriver;
 
-import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-import static seleniumHW.ReadProperties.readPropFile;
-import static seleniumHW.ReadProperties.selectParams;
+import static seleniumHW.Properties.readPropFile;
+import static seleniumHW.Properties.selectParams;
 
 public class WebDriverManagerPractice {
     public static void main(String[] args) {

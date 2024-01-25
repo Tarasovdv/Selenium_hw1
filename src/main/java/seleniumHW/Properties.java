@@ -1,17 +1,16 @@
 package seleniumHW;
 
 import java.io.*;
-import java.util.Properties;
 
-public class ReadProperties {
+public class Properties {
 
     public static InputStream readPropFile(String name_file) {
-        ClassLoader classLoader = ReadProperties.class.getClassLoader();
+        ClassLoader classLoader = Properties.class.getClassLoader();
         return classLoader.getResourceAsStream(name_file);
     }
 
     public static String selectParams(InputStream file_props, String key) {
-        Properties props = new Properties();
+        java.util.Properties props = new java.util.Properties();
         try {
             props.load(file_props);
         } catch (IOException e) {
