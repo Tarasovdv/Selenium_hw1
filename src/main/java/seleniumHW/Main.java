@@ -104,23 +104,26 @@ public class Main {
 
         driver.quit();
 
-        //    public static void main(String[] args) throws IOException {
-//
-//        // Первый способ
-//        File file = new File("src/main/resources/chrome.properties");
-//        Properties props = new Properties();
-//        props.load(new FileInputStream(file));
-//        System.out.println("props.getProperty(\"webdriver.chrome.driver\") = " + props.getProperty("webdriver.chrome.driver"));
-//
-//        // Второй способ
-//        ClassLoader classLoader = ReadProperties.class.getClassLoader();
-//        InputStream inputStream = classLoader.getResourceAsStream("chrome.properties");
-//
-//        Properties props2 = new Properties();
-//        props2.load(inputStream);
-//        System.out.println("props2.getProperty(\"webdriver.chrome.driver\") = " + props2.getProperty("webdriver.chrome.driver"));
-//    }
+// <<<<<<< JIRA-0004-TestNG
+//         //    public static void main(String[] args) throws IOException {
+// //
+// //        // Первый способ
+// //        File file = new File("src/main/resources/chrome.properties");
+// //        Properties props = new Properties();
+// //        props.load(new FileInputStream(file));
+// //        System.out.println("props.getProperty(\"webdriver.chrome.driver\") = " + props.getProperty("webdriver.chrome.driver"));
+// //
+// //        // Второй способ
+// //        ClassLoader classLoader = ReadProperties.class.getClassLoader();
+// //        InputStream inputStream = classLoader.getResourceAsStream("chrome.properties");
+// //
+// //        Properties props2 = new Properties();
+// //        props2.load(inputStream);
+// //        System.out.println("props2.getProperty(\"webdriver.chrome.driver\") = " + props2.getProperty("webdriver.chrome.driver"));
+// //    }
 
+// =======
+// >>>>>>> master
 
     }
 }
