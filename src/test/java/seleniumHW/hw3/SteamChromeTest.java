@@ -12,13 +12,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-import static sandbox.Properties.readPropFile;
-import static sandbox.Properties.selectParams;
+import static seleniumHW.Properties.readPropFile;
+import static seleniumHW.Properties.selectParams;
 
 public class SteamChromeTest {
-    String propFile = "chrome.properties";
-    String urlSteamGeneral = selectParams(readPropFile(propFile), "url.steam.general");
-    WebDriver driver = WebDriverManager.getInstance(selectParams(readPropFile(propFile), "browser.name")).create();
+   private static final String propFile = "chrome.properties";
+   private final String urlSteamGeneral = selectParams(readPropFile(propFile), "url.steam.general");
+   private static WebDriver driver = WebDriverManager.getInstance(selectParams(readPropFile(propFile), "browser.name")).create();
 
     @BeforeClass
     public void createDrivers() {
@@ -33,46 +33,46 @@ public class SteamChromeTest {
     }
 
     @Test(description = "Тест на наличие элемента: Текстовый эл-т 'КАТЕГОРИИ', находящийся внизу главной страницы.")
-    public void categoryDownTextIsDisplayed() {
+    public static void categoryDownTextIsDisplayed() {
         WebElement categoryDownTextElement = driver.findElement(By.xpath("//div[@class='home_page_content content_hub_carousel_ctn']/div[@class='title']"));
         boolean categoryDownTextIsDisplayed = categoryDownTextElement.isDisplayed();
         Assert.assertTrue(categoryDownTextIsDisplayed, "Текстовый эл-т 'КАТЕГОРИИ', находящийся внизу главной страницы - не найден");
     }
 
     @Test(description = "Тест на наличие элемента: Текстовый эл-т 'КАТЕГОРИИ', находящийся в левом меню главной страницы.")
-    public void categoryLeftTextIsDisplayed() {
+    public static void categoryLeftTextIsDisplayed() {
         WebElement categoryLeftTextElement = driver.findElement(By.xpath("//div[@role='main']//div[@class='home_page_gutter_block']/div[@class='gutter_header pad' and text() = 'Категории']"));
         boolean categoryLeftTextIsDisplayed = categoryLeftTextElement.isDisplayed();
         Assert.assertTrue(categoryLeftTextIsDisplayed, "Текстовый эл-т 'КАТЕГОРИИ', находящийся в левом меню главной страницы - не найден");
     }
 
     @Test(description = "Тест на наличие элемента: Выпадающий список по кнопке 'Категории'")
-    public void categoryPullDownButtonIsDisplayed() {
+    public static void categoryPullDownButtonIsDisplayed() {
         WebElement categoryPullDownButtonElement = driver.findElement(By.xpath("//div//a[@class='pulldown_desktop' and text() = 'Категории']"));
         boolean categoryPullDownButtonIsDisplayed = categoryPullDownButtonElement.isDisplayed();
         Assert.assertTrue(categoryPullDownButtonIsDisplayed, "Выпадающий список по кнопке 'Категории' - не найден");
     }
 
     @Test(description = "Тест на наличие элемента: Кнопка-ссылка 'Приключенческая игра'", dependsOnMethods = {"categoryPullDownButtonIsDisplayed"})
-    public void adventureGameLinkButtonIsDisplayed() {
+    public static void adventureGameLinkButtonIsDisplayed() {
         WebElement categoryPullDownButtonElement = driver.findElement(By.xpath("//div//a[@class='pulldown_desktop' and text() = 'Категории']"));
         categoryPullDownButtonElement.click();
-        WebElement adventureGameLinkButtonElement = driver.findElement(By.xpath("//a[@href='https://store.steampowered.com/category/adventure/?snr=1_4_4__12']"));
+        WebElement adventureGameLinkButtonElement = driver.findElement(By.xpath("//a[contains(text(),'Приключенческая игра')]"));
         boolean adventureGameLinkButtonIsDisplayed = adventureGameLinkButtonElement.isDisplayed();
         Assert.assertTrue(adventureGameLinkButtonIsDisplayed, "Кнопка-ссылка 'Приключенческая игра' - не найдена");
     }
 
     @Test(description = "Тест на соответствие текста элемента: Кнопка-ссылка 'Приключенческая игра'", dependsOnMethods = {"categoryPullDownButtonIsDisplayed"})
-    public void adventureGameLinkButtonGetText() {
+    public static void adventureGameLinkButtonGetText() {
         WebElement categoryPullDownButtonElement = driver.findElement(By.xpath("//div//a[@class='pulldown_desktop' and text() = 'Категории']"));
         categoryPullDownButtonElement.click();
-        WebElement adventureGameLinkButtonElement = driver.findElement(By.xpath("//a[@href='https://store.steampowered.com/category/adventure/?snr=1_4_4__12']"));
+        WebElement adventureGameLinkButtonElement = driver.findElement(By.xpath("//a[contains(text(),'Приключенческая игра')]"));
         String adventureGameLinkButtonText = adventureGameLinkButtonElement.getText();
         Assert.assertEquals(adventureGameLinkButtonText, "Приключенческая игра", "Текст кнопки 'Приключенческая игра' - не соответствует ожидаемому результату");
     }
 
     @Test(description = "Тест на корректность отображения стоимости товара: TEKKEN-8 в разделе 'Популярные новинки'")
-    public void priceTekken8FromPopularNewGamesInRu() {
+    public static void priceTekken8FromPopularNewGamesInRu() {
         WebElement newInterestingPullDownButtonElement = driver.findElement(By.xpath("//a[ @class = 'pulldown_desktop' and text() ='Новое и интересное']"));
         newInterestingPullDownButtonElement.click();
         WebElement newGamesLinkButton = driver.findElement(By.xpath("//a[ @class = 'popup_menu_item' and contains(text(),'Новинки')]"));
