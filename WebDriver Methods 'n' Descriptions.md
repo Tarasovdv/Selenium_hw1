@@ -171,3 +171,89 @@
 7. `driver.switchTo().parentFrame(); `
 
 Этот драйвер сфокусирован на родительском фрейме
+
+## getLocation()
+
+Метод getLocation() используется для определения местоположения элемента на веб-странице.
+
+Объявление метода – Point getLocation();
+
+Что он делает? – Он получит местоположение верхнего левого угла указанного вебэлемента.
+
+Что он возвращает? – Он вернет объект Point, обозначающий местоположение элемента. Мы можем использовать метод getX() или getY(), предоставляемый классом Point, чтобы получить координаты x и y элемента.
+
+Note: The location of any element on the webpage is calculated by considering the top left-hand corner of the webpage to be at (0,0) coordinates.
+
+![img.png](img/fromMD/getLocation().png)
+
+Now, let’s try to get the location of the 1st text field on this page using the getLocation() method. getLocation() will get the top left-hand point location of the specified web element.
+
+![img_1.png](img/fromMD/getLocation()2.png)
+
+As getLocation() returns a Point class object, we can use the getX() and getY() to get the x and y coordinates of the web element.
+
+      import org.openqa.selenium.By;
+      import org.openqa.selenium.Point;
+      import org.openqa.selenium.WebDriver;
+      import org.openqa.selenium.WebElement;
+      import org.openqa.selenium.chrome.ChromeDriver;
+      import org.testng.annotations.Test;
+      
+      public class CodekruTest {
+      
+          @Test
+          public void test() {
+       
+              // pass the path of the chromedriver location in the second argument
+              System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+              WebDriver driver = new ChromeDriver();
+       
+              // opening the url
+              driver.get("https://testkru.com/Elements/TextFields");
+       
+              WebElement element = driver.findElement(By.id("firstName"));
+       
+              Point point = element.getLocation();
+              System.out.println("x location: " + point.getX());
+              System.out.println("y location: " + point.getY());
+       
+          }
+      }
+
+Output –
+
+x location: 532
+
+y location: 427
+
+Similarly, we can find the location of any element on the webpage.
+
+## What if we use the getLocation() method on a null WebElement?
+
+We will get a NullPointerException as illustrated by the below program.
+
+
+      public class CodekruTest {
+      
+          @Test
+          public void test() {
+       
+              // pass the path of the chromedriver location in the second argument
+              System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+              WebDriver driver = new ChromeDriver();
+       
+              // opening the url
+              driver.get("https://testkru.com/Elements/TextFields");
+       
+              WebElement element = null;
+              Point point = element.getLocation();
+       
+          }
+      }
+
+Output –
+
+`java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebElement.getLocation()" because "element" is null`
+
+
+
