@@ -46,15 +46,54 @@
     FileUtils.copyFile(scrFile, new File("C:\\Users\\HANNYA\\IdeaProjects\\BUTTON-ONE\\Selenium_hw1\\src\\main\\resources\\scrn.png"));
 
 
-6. статический импорт
+# 6. Статический импорт
+
+С помощью статического импорта мы можем обращаться к статическим членам класса напрямую, без имени класса или какого-либо объекта.
+
+      // without static import
+      class Geeks {
+         public static void main(String[] args)
+      {
+            System.out.println(Math.sqrt(4));
+            System.out.println(Math.pow(2, 2));
+            System.out.println(Math.abs(6.3));
+         }
+      }
 
 
-7. проверить цвет элемента
-взять атрибут нашего элемента или (css value) вытащить код цвета и сравнить с ожидаемым. Сделать проверку: ДЗ
-   withTheHighestRatingParameterButton.getCssValue("color") = rgba(255, 255, 255, 1)
+      // with static import
+      class Geeks {
+         public static void main(String[] args)
+      {
+            System.out.println(sqrt(4));
+            System.out.println(pow(2, 2));
+            System.out.println(abs(6.3));
+         }
+      }
+
+# 7. проверить цвет элемента
+
+Взять атрибут нашего элемента или (css value) вытащить код цвета и сравнить с ожидаемым.
+
+`getCssValue("color")` - вызвать метод у нашего элемента
+
+      @Test(description = "Тест на соответствие цвета элемента: Выпадающий список по кнопке 'Категории'")
+      public static void categoryPullDownButtonGetColor() {
+      wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+      Assert.assertEquals(wait.until(visibilityOfElementLocated(By
+         .xpath("//div//a[@class='pulldown_desktop' and text() = 'Категории']")))
+         .getCssValue("color")
+         , "rgba(229, 229, 229, 1)"
+         , "Цвет Элемента не соответствует");
+      }
+
+выдаст цвет в виде строки типа: rgba(229, 229, 229, 1)
+
+Цветовая схема RGB, На сайте схема может отличаться (HEX: #e5e5e5), можно перевести через конвектор
+
+# 8. Клик
 
 
-8. Клик
 
 9. Expected Conditions - примеры конкретных
 
