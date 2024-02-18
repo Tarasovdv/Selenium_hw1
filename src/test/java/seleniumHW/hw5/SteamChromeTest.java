@@ -5,12 +5,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
@@ -20,72 +20,67 @@ import static seleniumHW.Properties.readPropFile;
 import static seleniumHW.Properties.selectParams;
 
 public class SteamChromeTest {
-    private static final String propFile = "chrome.properties";
-    private final String urlSteamGeneral = selectParams(readPropFile(propFile), "url.steam.general");
-    private static WebDriver driver = WebDriverManager.getInstance(selectParams(readPropFile(propFile), "browser.name")).create();
+    private static final String PROP_FILE = "chrome.properties";
+    private static final String URL_STEAM_GENERAL = selectParams(readPropFile(PROP_FILE), "url.steam.general");
+    private static final WebDriver DRIVER = WebDriverManager.getInstance(selectParams(readPropFile(PROP_FILE), "browser.name")).create();
 
-    private static WebDriverWait wait;
-//    private static final JavascriptExecutor js = (JavascriptExecutor) driver;
+    private static final WebDriverWait WAIT = new WebDriverWait(DRIVER, Duration.ofSeconds(2));
 
     @BeforeClass
     public void createDriver() {
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-        driver.get(urlSteamGeneral);
+        DRIVER.manage().window().maximize();
+        DRIVER.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
     }
 
     @AfterClass
     public void quitDriver() {
-        driver.quit();
+        DRIVER.quit();
     }
 
     @Test(description = "Тест на наличие элемента: Текстовый эл-т 'КАТЕГОРИИ', находящийся внизу главной страницы.")
-    public static void categoryDownTextIsDisplayed() {
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        assertTrue(wait.until(visibilityOfElementLocated(By
-                                .xpath("//div[@class='home_page_content content_hub_carousel_ctn']/div[@class='title']")))
+    public static void visibilityTextElementAtBottomPage() {
+        DRIVER.get(URL_STEAM_GENERAL);
+        assertTrue(WAIT.until(visibilityOfElementLocated(By
+                                .xpath("//div[contains(@class,'content_hub_carousel')]/div[@class='title']")))
                         .isDisplayed(),
                 "Текстовый эл-т 'КАТЕГОРИИ', находящийся внизу главной страницы - не найден");
     }
 
     @Test(description = "Тест на наличие элемента: Текстовый эл-т 'КАТЕГОРИИ', находящийся в левом меню главной страницы.")
-    public static void categoryLeftTextIsDisplayed() {
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        assertTrue(wait.until(visibilityOfElementLocated(By
-                                .xpath("//div[@role='main']//div[@class='home_page_gutter_block']/div[@class='gutter_header pad' and text() = 'Категории']")))
+    public static void visibilityTextElementOnLeftSidePage() {
+        DRIVER.get(URL_STEAM_GENERAL);
+        assertTrue(WAIT.until(visibilityOfElementLocated(By
+                                .xpath("//div[text() = 'Рекомендуется']/following::div[@class='gutter_header pad' and text() = 'Категории']")))
                         .isDisplayed(),
                 "Текстовый эл-т 'КАТЕГОРИИ', находящийся в левом меню главной страницы - не найден");
     }
 
     @Test(description = "Тест на наличие элемента: Выпадающий список по кнопке 'Категории'")
     public static void categoryPullDownButtonIsDisplayed() {
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        assertTrue(wait.until(visibilityOfElementLocated(By
+        DRIVER.get(URL_STEAM_GENERAL);
+        assertTrue(WAIT.until(visibilityOfElementLocated(By
                         .xpath("//div//a[@class='pulldown_desktop' and text() = 'Категории']")))
                 .isDisplayed(), "Выпадающий список по кнопке 'Категории' - не найден");
     }
 
-    @Test(description = "Тест на наличие элемента: Кнопка-ссылка 'Приключенческая игра'"
-            , dependsOnMethods = {"categoryPullDownButtonIsDisplayed"})
+    @Test(description = "Тест на наличие элемента: Кнопка-ссылка 'Приключенческая игра'")
     public static void adventureGameLinkButtonIsDisplayed() {
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement categoryPullDownButtonElement = wait.until(visibilityOfElementLocated(By
+        DRIVER.get(URL_STEAM_GENERAL);
+        WebElement categoryPullDownButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//div//a[@class='pulldown_desktop' and text() = 'Категории']")));
-        categoryPullDownButtonElement.click();
-        assertTrue(wait.until(visibilityOfElementLocated
+        categoryPullDownButton.click();
+        assertTrue(WAIT.until(visibilityOfElementLocated
                         (By.xpath("//a[contains(text(),'Приключенческая игра')]")))
                 .isDisplayed(), "Кнопка-ссылка 'Приключенческая игра' - не найдена");
     }
 
-    @Test(description = "Тест на соответствие текста элемента: Кнопка-ссылка 'Приключенческая игра'"
-            , dependsOnMethods = {"categoryPullDownButtonIsDisplayed"})
+    @Test(description = "Тест на соответствие текста элемента: Кнопка-ссылка 'Приключенческая игра'")
     public static void adventureGameLinkButtonGetText() {
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement categoryPullDownButtonElement = wait.until(visibilityOfElementLocated
+        DRIVER.get(URL_STEAM_GENERAL);
+        WebElement categoryPullDownButton = WAIT.until(visibilityOfElementLocated
                 (By.xpath("//div//a[@class='pulldown_desktop' and text() = 'Категории']")));
-        categoryPullDownButtonElement.click();
-        Assert.assertEquals(wait.until(visibilityOfElementLocated(By
+        categoryPullDownButton.click();
+        Assert.assertEquals(WAIT.until(visibilityOfElementLocated(By
                                 .xpath("//a[contains(text(),'Приключенческая игра')]")))
                         .getText()
                 , "Приключенческая игра"
@@ -94,50 +89,50 @@ public class SteamChromeTest {
 
     @Test
     public static void checkingCorrectnessOfPriceAndCurrency() {
-        driver.get("https://store.steampowered.com/");
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        DRIVER.get(URL_STEAM_GENERAL);
+        SoftAssert softAssert = new SoftAssert();
+        JavascriptExecutor js = (JavascriptExecutor) DRIVER;
         js.executeScript("window.scrollBy(0, " + 2250 + ");");
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement categoriesButtonTopMenuDesktop = wait.until(visibilityOfElementLocated(By
-                .xpath("//img[@alt = 'Симулятор Чушпана']/ancestor::a[contains(@class,'app_impression_tracked')]//div[@class = 'discount_final_price']")));
-        assertTrue(categoriesButtonTopMenuDesktop.isDisplayed(), "Игра по указанному XPath не найдена.");
+        WebElement categoriesButtonTopMenuDesktop = WAIT.until(visibilityOfElementLocated(By
+                .xpath("//img[@alt = 'Goat Simulator 3']/ancestor::a[contains(@class,'app_impression_tracked')]" +
+                        "//div[@class = 'discount_final_price']")));
+        softAssert.assertTrue(categoriesButtonTopMenuDesktop.isDisplayed(), "Игра по указанному XPath не найдена.");
         String[] parts = categoriesButtonTopMenuDesktop.getText().split(" ");
-        Assert.assertEquals(parts[0], "48", "Указана некорректная цена товара");
-        Assert.assertEquals(parts[1], "pуб.", "Указана некорректная валюта в стоимости");
+        softAssert.assertEquals(parts[0], "715", "Указана некорректная цена товара");
+        softAssert.assertEquals(parts[1], "pуб.", "Указана некорректная валюта в стоимости");
+        softAssert.assertAll();
     }
 
     @Test(description = "Тест на соответствие корректного перехода на страницу ИГРЫ по пути:" +
             " Главная страница/Категории/Кооперативы/С наивысшим рейтингом" +
-            "/Фильтры:Основные жанры-Казуальная игра/Игроки-кооператив"
-            , dependsOnMethods = {"categoryPullDownButtonIsDisplayed"})
+            "/Фильтры:Основные жанры-Казуальная игра/Игроки-кооператив")
     public static void checkCorrectNameGame() {
-        driver.get("https://store.steampowered.com/");
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement categoryPullDownButtonElement = wait.until(visibilityOfElementLocated(By
+        DRIVER.get(URL_STEAM_GENERAL);
+        WebElement categoryPullDownButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//div//a[@class='pulldown_desktop' and text() = 'Категории']")));
-        categoryPullDownButtonElement.click();
-        WebElement cooperativesLinkButtonElement = wait.until(visibilityOfElementLocated(By
+        categoryPullDownButton.click();
+        WebElement cooperativesLinkButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//a[contains(text(),'Кооперативы')]")));
-        cooperativesLinkButtonElement.click();
+        cooperativesLinkButton.click();
         scrollJS(1890);
-        WebElement filterGamesButton = wait.until(visibilityOfElementLocated(By
+        WebElement filterGamesButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//div[contains(text(),'Фильтры')]")));
         filterGamesButton.click();
-        WebElement casualGameButton = wait.until(visibilityOfElementLocated(By
+        WebElement casualGameButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//div[contains(text(),'Основные жанры')]/following::a[contains(text(),'Казуальная игра')]")));
         casualGameButton.click();
         scrollJS(300);
-        WebElement gamersButton = wait.until(visibilityOfElementLocated(By
+        WebElement gamersButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//div[contains(text(),'Игроки')]")));
         gamersButton.click();
-        WebElement cooperativesButton = wait.until(visibilityOfElementLocated(By
+        WebElement cooperativesButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//div[contains(text(),'Игроки')]/following::a[contains(text(),'Кооператив')]")));
         cooperativesButton.click();
         scrollJS(-300);
-        driver.get(wait.until(visibilityOfElementLocated(By
+        DRIVER.get(WAIT.until(visibilityOfElementLocated(By
                         .xpath("//div[@class='facetedbrowse_FacetedBrowseItems_NO-IP']//a/div[contains(text(),\"Garry's Mod\")]/..")))
                 .getAttribute("href"));
-        Assert.assertEquals(wait.until(visibilityOfElementLocated
+        Assert.assertEquals(WAIT.until(visibilityOfElementLocated
                                 (By.xpath("//div[@id = 'appHubAppName']")))
                         .getText()
                 , "Garry's Mod"
@@ -145,7 +140,7 @@ public class SteamChromeTest {
     }
 
     private static void scrollJS(int scroll) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        JavascriptExecutor js = (JavascriptExecutor) DRIVER;
         js.executeScript("window.scrollBy(0, " + scroll + ");");
     }
 }
