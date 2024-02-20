@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -13,6 +14,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
+import java.util.ArrayList;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 import static org.testng.Assert.assertTrue;
@@ -29,7 +31,6 @@ public class SteamChromeTest {
     @BeforeClass
     public void createDriver() {
         DRIVER.manage().window().maximize();
-        DRIVER.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
     }
 
     @AfterClass
@@ -108,6 +109,7 @@ public class SteamChromeTest {
             "/Фильтры:Основные жанры-Казуальная игра/Игроки-кооператив")
     public static void checkCorrectNameGame() {
         DRIVER.get(URL_STEAM_GENERAL);
+        Actions actionWithYourFrame = new Actions(DRIVER);
         WebElement categoryPullDownButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//div//a[@class='pulldown_desktop' and text() = 'Категории']")));
         categoryPullDownButton.click();
@@ -121,17 +123,23 @@ public class SteamChromeTest {
         WebElement casualGameButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//div[contains(text(),'Основные жанры')]/following::a[contains(text(),'Казуальная игра')]")));
         casualGameButton.click();
-        scrollJS(300);
+        WebElement mainGenresBorderButton = WAIT.until(visibilityOfElementLocated(By
+                .xpath("//div[text()='Основные жанры']/..//*[local-name()='svg']")));
+        mainGenresBorderButton.click();
         WebElement gamersButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//div[contains(text(),'Игроки')]")));
+        actionWithYourFrame.scrollToElement(gamersButton).build().perform();
         gamersButton.click();
         WebElement cooperativesButton = WAIT.until(visibilityOfElementLocated(By
                 .xpath("//div[contains(text(),'Игроки')]/following::a[contains(text(),'Кооператив')]")));
+        actionWithYourFrame.scrollToElement(cooperativesButton).build().perform();
         cooperativesButton.click();
-        scrollJS(-300);
-        DRIVER.get(WAIT.until(visibilityOfElementLocated(By
-                        .xpath("//div[@class='facetedbrowse_FacetedBrowseItems_NO-IP']//a/div[contains(text(),\"Garry's Mod\")]/..")))
-                .getAttribute("href"));
+        WebElement capsuleImageGameLink = WAIT.until(visibilityOfElementLocated(By
+                .xpath("//div[contains(@class,'NO-IP')]//a//img[contains(@alt,\"Garry's Mod\")]")));
+        actionWithYourFrame.scrollToElement(capsuleImageGameLink).build().perform();
+        capsuleImageGameLink.click();
+        ArrayList<String> tabs = new ArrayList<>(DRIVER.getWindowHandles());
+        DRIVER.switchTo().window(tabs.get(1));
         Assert.assertEquals(WAIT.until(visibilityOfElementLocated
                                 (By.xpath("//div[@id = 'appHubAppName']")))
                         .getText()
