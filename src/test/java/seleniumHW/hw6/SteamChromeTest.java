@@ -1,78 +1,52 @@
 package seleniumHW.hw6;
 
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
+import seleniumHW.hw6.pageObjects.CoopPage;
+import seleniumHW.hw6.pageObjects.GarrysModPage;
+import seleniumHW.hw6.pageObjects.SteamMainPage;
 
-import java.time.Duration;
+import java.util.ArrayList;
 
-import static org.testng.Assert.assertTrue;
-import static seleniumHW.Properties.readPropFile;
-import static seleniumHW.Properties.selectParams;
-import static seleniumHW.hw6.SingletonDriver.getDriver;
+import static seleniumHW.hw6.utils.SingletonDriver.MANAGER_DRIVER;
 
 public class SteamChromeTest {
-    private static final String PROP_FILE = "chrome.properties";
-    private static final String URL_STEAM_GENERAL = selectParams(readPropFile(PROP_FILE), "url.steam.general");
-    static WebDriver driver = getDriver();
-    static SteamMainPage mainPage = new SteamMainPage();
-
-
-    @BeforeClass
-    public void createDriver() {
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-        driver.get(URL_STEAM_GENERAL);
-
-    }
-
-    @AfterClass
+    @AfterTest
     public void quitDriver() {
-        driver.quit();
+        MANAGER_DRIVER.getDriver().quit();
     }
 
-    @Test(description = "Тест на наличие элемента: Текстовый эл-т 'КАТЕГОРИИ', находящийся внизу главной страницы.")
-    public static void visibilityCategoryTextElementAtBottomPage() {
-        assertTrue(mainPage.visibilityCategoryTextElementAtBottomPage(),
-                "Текстовый эл-т 'КАТЕГОРИИ', находящийся внизу главной страницы - не найден");
-    }
-
-    @Test(description = "Тест на наличие элемента: Текстовый эл-т 'КАТЕГОРИИ', находящийся в левом меню главной страницы.")
-    public static void visibilityTextElementOnLeftSidePage() {
-        assertTrue(mainPage.visibilityCategoryTextElementOnLeftSidePage(),
-                "Текстовый эл-т 'КАТЕГОРИИ', находящийся в левом меню главной страницы - не найден");
-    }
-
-    @Test(description = "Тест на наличие элемента: Выпадающий список по кнопке 'Категории'")
-    public static void visibilityCategoryPullDownButtonIsDisplayed() {
-        assertTrue(mainPage.visibilityCategoryPullDownButton(), "Выпадающий список по кнопке 'Категории' - не найден");
-    }
-
-    @Test(description = "Тест на соответствие текста элемента: Кнопка-ссылка 'Приключенческая игра'")
-    public static void adventureGameLinkButtonGetText() {
-        mainPage.clickCategoryPullDownButton();
-        Assert.assertEquals(mainPage.adventureGameLinkButtonGetText()
-                , "Приключенческая игра"
-                , "Текст кнопки 'Приключенческая игра' - не соответствует ожидаемому результату");
-    }
-
-    @Test
-    public static void checkingCorrectnessOfPriceAndCurrency() {
-        SoftAssert softAssert = new SoftAssert();
-        scrollJS(2250);
-        softAssert.assertTrue(mainPage.visibilityCategoriesButtonTopMenuDesktop(), "Игра по указанному XPath не найдена.");
-        String[] parts = mainPage.categoriesButtonTopMenuDesktopGetText().split(" ");
-        softAssert.assertEquals(parts[0], "715", "Указана некорректная цена товара");
-        softAssert.assertEquals(parts[1], "pуб.", "Указана некорректная валюта в стоимости");
-        softAssert.assertAll();
+    @Test(description = "Тестирование корректного перехода на страницу ИГРЫ по пути:\" " +
+            "            \" Главная страница/Категории/Кооперативы/С наивысшим рейтингом\" +\n" +
+            "            \"/Фильтры:Основные жанры-Казуальная игра/Игроки-кооператив")
+    public void checkingCorrectProductDisplayWithFilterParametersCooperative() {
+        MANAGER_DRIVER.getDriver().manage().window().maximize();
+        SteamMainPage.goToMainPage();
+        Assert.assertEquals(MANAGER_DRIVER.getDriver()
+                .getCurrentUrl(), "https://store.steampowered.com/", "Opening the wrong site page");
+        SteamMainPage steamMainPage = new SteamMainPage();
+        CoopPage coopPage = new CoopPage();
+        GarrysModPage garrysModPage = new GarrysModPage();
+        steamMainPage.clickCategoryPulldownDesktopButton();
+        steamMainPage.clickCooperativesLinkButton();
+        scrollJS(1890);
+        coopPage.clickFilterGamesButton();
+        coopPage.clickCasualGameButtonOnMainGenreOnFilterParam();
+        coopPage.collapseSectionMainGenreOnFilterParam();
+        coopPage.clickGamersBorderButtonOnFilterParam();
+        coopPage.clickCooperativesButtonOnGamersOnFilterParam();
+        coopPage.clickCapsuleImageGameLink();
+        ArrayList<String> tabs = new ArrayList<>(MANAGER_DRIVER.getDriver().getWindowHandles());
+        MANAGER_DRIVER.getDriver().switchTo().window(tabs.get(1));
+        Assert.assertEquals(garrysModPage.getTextAppName()
+                , "Garry's Mod"
+                , "Произведен некорректный выбор игры");
     }
 
     private static void scrollJS(int scroll) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        JavascriptExecutor js = (JavascriptExecutor) MANAGER_DRIVER.getDriver();
         js.executeScript("window.scrollBy(0, " + scroll + ");");
     }
 }

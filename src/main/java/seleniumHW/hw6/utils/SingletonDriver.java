@@ -1,18 +1,21 @@
-package seleniumHW.hw6;
+package seleniumHW.hw6.utils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 
-import static seleniumHW.Properties.readPropFile;
-import static seleniumHW.Properties.selectParams;
+import static seleniumHW.hw6.utils.Properties.readPropFile;
+import static seleniumHW.hw6.utils.Properties.selectParams;
 
-public class SingletonDriver {
+
+public enum SingletonDriver {
+    MANAGER_DRIVER;
     private static final String PROP_FILE = "chrome.properties";
-    private static WebDriver driver;
+    private WebDriver driver;
 
-    private SingletonDriver() {}
+    private SingletonDriver() {
+    }
 
-    public static WebDriver getDriver() {
+    public WebDriver getDriver() {
         if (driver == null) {
             driver = WebDriverManager.getInstance(selectParams(readPropFile(PROP_FILE), "browser.name")).create();
         }
