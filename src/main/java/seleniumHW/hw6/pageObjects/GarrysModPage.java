@@ -22,4 +22,5 @@ public class GarrysModPage {
         }
         return DRIVER_MANAGER.getDriver().findElement(appName).getText();
     }
+
 }

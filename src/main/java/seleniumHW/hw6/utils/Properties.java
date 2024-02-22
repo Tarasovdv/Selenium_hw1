@@ -19,4 +19,5 @@ public class Properties {
         }
         return props.getProperty(key);
     }
+
 }

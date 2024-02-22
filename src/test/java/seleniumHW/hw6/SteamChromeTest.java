@@ -58,4 +58,5 @@ public class SteamChromeTest {
         JavascriptExecutor js = (JavascriptExecutor) DRIVER_MANAGER.getDriver();
         js.executeScript("window.scrollBy(0, " + scroll + ");");
     }
+
 }
