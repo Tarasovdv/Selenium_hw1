@@ -99,16 +99,16 @@ options experimental
 33. StaleElementReferenceException - ссылка на устаревший элемент
 34. ALERT
 35. iFrame
-36. открывается долго страничка, что делать, ведь дальнейшее тестирование переходит туда.
-    numberOfWindowsToBe(int expectedNumberOfWindows) ДЗ сделать
+36. открывается долго страничка, что делать, ведь дальнейшее тестирование переходит туда. 
+numberOfWindowsToBe(int expectedNumberOfWindows) ДЗ сделать
 37. @DataProvider: Обозначает метод, который предоставляет данные для тестовых методов.
-    @DataProvider(name = "data-provider")
-    public Object[][] dataProviderMethod() {
-    // Код, предоставляющий данные для тестовых методов
-    }
+@DataProvider(name = "data-provider")
+public Object[][] dataProviderMethod() {
+// Код, предоставляющий данные для тестовых методов
+}
 38. Тестировать конструктор как?
-    Создать экземпляр, объект, принять параметры, и сверить
-    reflectionApi
+Создать экземпляр, объект, принять параметры, и сверить 
+reflectionApi
 39. 100% покрытие unit тестами не гарантирует работоспособность продукта почему?
 40. иерархия аннотаций тестНГ
 41. почему нельзя возвращать NULL
