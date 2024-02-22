@@ -7,12 +7,11 @@ import java.time.Duration;
 import java.util.NoSuchElementException;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
-import static seleniumHW.hw6.utils.SingletonDriver.MANAGER_DRIVER;
+import static seleniumHW.hw6.utils.SingletonDriver.DRIVER_MANAGER;
 
 public class GarrysModPage {
-
     private final By appName = By.xpath("//div[@id = 'appHubAppName']");
-    private final WebDriverWait wait = new WebDriverWait(MANAGER_DRIVER.getDriver(), Duration.ofSeconds(2));
+    private final WebDriverWait wait = new WebDriverWait(DRIVER_MANAGER.getDriver(), Duration.ofSeconds(2));
 
     public String getTextAppName() {
         try {
@@ -21,6 +20,6 @@ public class GarrysModPage {
             System.err.println("'Текстовое поле с названием игры' не найдено");
             throw noSuchElementException;
         }
-        return MANAGER_DRIVER.getDriver().findElement(appName).getText();
+        return DRIVER_MANAGER.getDriver().findElement(appName).getText();
     }
 }

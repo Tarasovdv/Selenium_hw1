@@ -16,8 +16,8 @@ import java.time.Duration;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 import static org.testng.Assert.assertTrue;
-import static seleniumHW.Properties.readPropFile;
-import static seleniumHW.Properties.selectParams;
+import static seleniumHW.hw6.utils.Properties.readPropFile;
+import static seleniumHW.hw6.utils.Properties.selectParams;
 
 public class SteamChromeTest {
     private static final String propFile = "chrome.properties";
@@ -25,7 +25,6 @@ public class SteamChromeTest {
     private static WebDriver driver = WebDriverManager.getInstance(selectParams(readPropFile(propFile), "browser.name")).create();
 
     private static WebDriverWait wait;
-//    private static final JavascriptExecutor js = (JavascriptExecutor) driver;
 
     @BeforeClass
     public void createDriver() {

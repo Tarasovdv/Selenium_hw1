@@ -8,12 +8,9 @@ import static seleniumHW.hw6.utils.Properties.selectParams;
 
 
 public enum SingletonDriver {
-    MANAGER_DRIVER;
+    DRIVER_MANAGER;
     private static final String PROP_FILE = "chrome.properties";
     private WebDriver driver;
-
-    private SingletonDriver() {
-    }
 
     public WebDriver getDriver() {
         if (driver == null) {
