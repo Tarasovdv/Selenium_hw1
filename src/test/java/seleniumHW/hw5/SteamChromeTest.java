@@ -18,14 +18,13 @@ import java.util.ArrayList;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 import static org.testng.Assert.assertTrue;
-import static seleniumHW.Properties.readPropFile;
-import static seleniumHW.Properties.selectParams;
+import static seleniumHW.hw6.utils.Properties.readPropFile;
+import static seleniumHW.hw6.utils.Properties.selectParams;
 
 public class SteamChromeTest {
     private static final String PROP_FILE = "chrome.properties";
     private static final String URL_STEAM_GENERAL = selectParams(readPropFile(PROP_FILE), "url.steam.general");
     private static final WebDriver DRIVER = WebDriverManager.getInstance(selectParams(readPropFile(PROP_FILE), "browser.name")).create();
-
     private static final WebDriverWait WAIT = new WebDriverWait(DRIVER, Duration.ofSeconds(2));
 
     @BeforeClass
@@ -74,6 +73,7 @@ public class SteamChromeTest {
                         (By.xpath("//a[contains(text(),'Приключенческая игра')]")))
                 .isDisplayed(), "Кнопка-ссылка 'Приключенческая игра' - не найдена");
     }
+
 
     @Test(description = "Тест на соответствие текста элемента: Кнопка-ссылка 'Приключенческая игра'")
     public static void adventureGameLinkButtonGetText() {

@@ -11,8 +11,8 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-import static seleniumHW.Properties.readPropFile;
-import static seleniumHW.Properties.selectParams;
+import static seleniumHW.hw6.utils.Properties.readPropFile;
+import static seleniumHW.hw6.utils.Properties.selectParams;
 
 public class SteamChromeTest {
     private static final String propFile = "chrome.properties";
